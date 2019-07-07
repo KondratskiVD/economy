@@ -4,6 +4,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import dateFilter from '@/filters/date.filter'
+import currencyFilter from '@/filters/currency.filter'
 import messagePlugin from '@/utils/message.plugin'
 import Loader from '@/components/app/Loader'
 import './registerServiceWorker'
@@ -20,6 +21,7 @@ Vue.use(messagePlugin)
 Vue.use(Vuelidate)
 Vue.filter('date', dateFilter) // регистрация фильтра ('название', ф-ция) - после чего в
 // глобальной области видимости данный фильтр для использования
+Vue.filter('currency', currencyFilter)
 Vue.component('Loader',Loader)
 
 firebase.initializeApp({
@@ -34,13 +36,15 @@ firebase.initializeApp({
 
 let app
 
-firebase.auth().onAuthStateChanged(() => {
-  if(!app){
+firebase.auth().onAuthStateChanged(() => { // метод onAuthStateChanged
+  // может вызываться несколько раз во время работы приложения (при перелогинивании)
+  // что бы при каждом изменении state не создавалось новое приложение делаем проверку
+  if(!app){ // инициализировалось ли приложение раньше
     app = new Vue({
       router,
       store,
       render: h => h(App)
     }).$mount('#app')
   }
-}) // если firebase найдет локальные данные пользователя для поддержки автоматической авторизация
+}) // если firebase найдет локальные данные пользователя для автоматической авторизации
 // то колбэком инициализируем приложение Vue - для удобства поддержания сессии пользователя

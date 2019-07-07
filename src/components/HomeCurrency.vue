@@ -3,7 +3,7 @@
     <div class="card orange darken-3 bill-card">
       <div class="card-content white-text">
         <div class="card-header">
-          <span class="card-title">Курс валют</span>
+          <span class="card-title">Курс валют относительно Евро</span>
         </div>
         <table>
           <thead>
@@ -15,10 +15,10 @@
           </thead>
 
           <tbody>
-          <tr>
-            <td>руб</td>
-            <td>12121</td>
-            <td>12.12.12</td>
+          <tr v-for="cur in currencies">
+            <td>{{cur}}</td>
+            <td>{{(rates[cur]).toFixed(2)}}</td>
+            <td>{{date | date('date')}}</td>
           </tr>
           </tbody>
         </table>
@@ -26,3 +26,14 @@
     </div>
   </div>
 </template>
+<script>
+  export default {
+    name: 'HomeBill',
+    props: ['rates', 'date'],
+    data() {
+      return {
+        currencies: ['UAH', 'USD', 'EUR']
+      }
+    },
+  }
+</script>
