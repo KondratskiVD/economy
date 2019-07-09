@@ -39,6 +39,16 @@ export default {
         commit('setError',e)
         throw e
       }
+    },
+    async fetchCategoryById({commit, dispatch}, id){
+      try{
+        const uid = await dispatch('getUid') //запись категории залогиненому пользователю
+        const category = (await firebase.database().ref(`/users/${uid}/categories`).child(id).once('value')).val() || {}// once для получения значения из DB
+        return {...category, id:id}
+      }catch (e) {
+        commit('setError',e)
+        throw e
+      }
     }
   }
 }

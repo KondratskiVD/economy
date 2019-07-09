@@ -42,7 +42,6 @@
     },
     methods: {
       setUp(categories){
-        console.log(categories)
         this.renderChart({
           labels: categories.map(c => c.title),
           datasets: [{

@@ -5,6 +5,7 @@ import router from './router'
 import store from './store'
 import dateFilter from '@/filters/date.filter'
 import currencyFilter from '@/filters/currency.filter'
+import tooltipDerective from '@/directives/tooltip.derective'
 import messagePlugin from '@/utils/message.plugin'
 import Loader from '@/components/app/Loader'
 import './registerServiceWorker'
@@ -22,6 +23,7 @@ Vue.use(Vuelidate)
 Vue.filter('date', dateFilter) // регистрация фильтра ('название', ф-ция) - после чего в
 // глобальной области видимости данный фильтр для использования
 Vue.filter('currency', currencyFilter)
+Vue.directive('tooltip',tooltipDerective)
 Vue.component('Loader',Loader)
 
 firebase.initializeApp({
